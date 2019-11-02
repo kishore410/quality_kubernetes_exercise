@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gameoflife
+  labels:
+    app: tomcat
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      volumes:
+      - name: log-vol
+        hostPath:
+          path: /var/log/tomcat_log
+      containers:
+      - name: gameoflife-conatiner
+        image: mvnk410/test:kishore
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - name: log-vol
+          mountPath: /usr/local/tomcat/logs
+          
